@@ -1,24 +1,39 @@
 class Solution {
 public:
-    std::string addStrings(std::string num1, std::string num2) {
-        int i = num1.size() - 1, j = num2.size() - 1;
-        int carry = 0;
-        std::string result;
+    string addStrings(string nums1, string nums2) {
+        int carry = 0, sum = 0;
+        int i = nums1.size() - 1, j = nums2.size() - 1;
+        string ans = "";
 
-        while (i >= 0 || j >= 0 || carry) {
-            int digit1 = (i >= 0) ? num1[i] - '0' : 0;
-            int digit2 = (j >= 0) ? num2[j] - '0' : 0;
-
-            int total = digit1 + digit2 + carry;
-            carry = total / 10;
-
-            result.push_back((total % 10) + '0');
-
-            --i;
-            --j;
+        while(i >= 0 && j >= 0){
+            int x = (nums1[i] - '0') + (nums2[j] - '0');
+            sum = x + carry;
+            ans += (sum % 10) + '0';
+            carry = sum / 10;
+            i--;
+            j--;
         }
 
-        std::reverse(result.begin(), result.end());
-        return result;
+        while(i >= 0){
+            int x = nums1[i] - '0';
+            sum = x + carry;
+            ans += (sum % 10) + '0';
+            carry = sum / 10;
+            i--;
+        }
+
+        while(j >= 0){
+            int x = nums2[j] - '0';
+            sum = x + carry;
+            ans += (sum % 10) + '0';
+            carry = sum / 10;
+            j--;
+        }
+
+        if(carry)
+            ans += '1';
+
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
