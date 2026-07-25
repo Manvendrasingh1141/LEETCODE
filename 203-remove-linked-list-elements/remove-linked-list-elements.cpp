@@ -4,21 +4,23 @@ public:
         if (!curr) return;
 
         if (curr->val == val && prev == NULL) {
-            ListNode* temp = head;
+            ListNode *temp = head;
             head = head->next;
+            curr = head;
             delete temp;
-            remove(head, NULL, head, val);
+            remove(head, NULL, curr, val);
             return;
         }
 
-        if (curr->val == val) {
-            ListNode* temp = curr;
-            prev->next = curr->next;
+        if (curr && curr->val == val) {
+            ListNode *temp = curr;
+            prev->next = temp->next;
             curr = curr->next;
             delete temp;
             remove(head, prev, curr, val);
             return;
         }
+
         remove(head, curr, curr->next, val);
     }
 
