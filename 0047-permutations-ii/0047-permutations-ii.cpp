@@ -1,28 +1,24 @@
 class Solution {
 public:
-    void fun(vector<int>& nums,vector<int>&temp,vector<bool>&visited,set<vector<int>>&ans){
-        if(temp.size()==nums.size()){
-            ans.insert(temp);
+    void fun(vector<int>& nums, int idx, vector<vector<int>>& ans) {
+        if (idx == nums.size()) {
+            ans.push_back(nums);
             return;
         }
-
-        for(int i=0;i<visited.size();i++){
-            if(visited[i]==0){
-                temp.push_back(nums[i]);
-                visited[i]=1;
-                fun(nums,temp,visited,ans);
-                temp.pop_back();
-                visited[i]=0;
-            }
+        vector<bool> visited(21, 0);   
+        for (int i = idx; i < nums.size(); i++) {
+            if (visited[nums[i] + 10])
+                continue;
+            visited[nums[i] + 10] = 1;
+            swap(nums[idx], nums[i]);
+            fun(nums, idx + 1, ans);
+            swap(nums[idx], nums[i]);
         }
     }
+
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        set<vector<int>>ans;
-        vector<int>temp;
-        vector<bool>visited(nums.size(),0);
-        fun(nums,temp,visited,ans);
-        vector<vector<int>>res(ans.begin(),ans.end());
-        return res;
+        vector<vector<int>> ans;
+        fun(nums, 0, ans);
+        return ans;
     }
 };
-
