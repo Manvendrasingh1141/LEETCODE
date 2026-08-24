@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void create(int idx,vector<int>& nums,vector<int>& temp){
+        if(idx==nums.size()){
+            ans.push_back(temp);
+            return;
+        }
+
+        temp.push_back(nums[idx]);
+        create(idx+1,nums,temp);
+        temp.pop_back();
+        create(idx+1,nums,temp);
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int>temp;
+        create(0,nums,temp);
+        return ans;
+    }
+};
+
+
+// 1 2 3
+// 1 
+// 12
+// 123
