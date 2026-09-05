@@ -8,15 +8,17 @@ public:
         q.push_back(root);
 
         while(!q.empty()){
-            TreeNode *temp = q.front();
+
             ans.push_back(q.back()->val);
             int n = q.size();
+
             while(n--){
-            TreeNode *x = q.front();
+            
+            TreeNode *temp = q.front();
             q.pop_front();
 
-            if(x->left)q.push_back(x->left);
-            if(x->right)q.push_back(x->right);
+            if(temp->left)q.push_back(temp->left);
+            if(temp->right)q.push_back(temp->right);
             }
 
         }
