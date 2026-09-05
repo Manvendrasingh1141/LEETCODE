@@ -1,18 +1,16 @@
 class Solution {
 public:
-    bool isSymmetric(TreeNode* root) {
-        return isMirror(root->left, root->right);
-    }
+    bool check(TreeNode *p,TreeNode *q){
+        if(!p && !q)return 1;
+        if(!p || !q)return 0;
+        if(p->val!=q->val)return 0;
 
-    bool isMirror(TreeNode* n1, TreeNode* n2) {
-        if (n1 == nullptr && n2 == nullptr) {
-            return true;
-        }
-        
-        if (n1 == nullptr || n2 == nullptr) {
-            return false;
-        }
-        
-        return n1->val == n2->val && isMirror(n1->left, n2->right) && isMirror(n1->right, n2->left);
+
+        return check(p->left,q->right) && check(p->right,q->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        if(!root)return 1;
+        return check(root->left,root->right);
+
     }
 };
