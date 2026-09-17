@@ -1,26 +1,23 @@
 class Solution {
 public:
-    void subset(vector<int>& nums,vector<int>& temp,int idx,set<vector<int>>&res){
-        if(idx==nums.size()){
-            res.insert(temp);
-            return;
+    void fun(vector<vector<int>>&ans,vector<int>& res,vector<int>& nums,int idx){
+        ans.push_back(res);
+            
+        for(int i=idx;i<nums.size();i++){
+            if(i>idx && nums[i]==nums[i-1])continue;
+
+            res.push_back(nums[i]);
+            fun(ans,res,nums,i+1);
+            res.pop_back();
         }
        
-            //exclude
-            subset(nums,temp,idx+1,res);
-            //include
-            temp.push_back(nums[idx]);
-            subset(nums,temp,idx+1,res);
-            temp.pop_back();
-    
     }
-
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         sort(nums.begin(),nums.end());
-        set<vector<int>>res;
-        vector<int>temp;
-        subset(nums,temp,0,res);
-        vector<vector<int>>ans(res.begin(),res.end());
+        vector<vector<int>>ans;
+        vector<int>res;
+        fun(ans,res,nums,0);
         return ans;
     }
+    
 };
