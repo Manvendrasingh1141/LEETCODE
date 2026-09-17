@@ -1,26 +1,26 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    void create(int idx,vector<int>& nums,vector<int>& temp){
-        if(idx==nums.size()){
-            ans.push_back(temp);
+    void fun(vector<vector<int>>&ans,vector<int>& res,vector<int>& nums,int idx){
+        if(idx>nums.size()-1){
+            ans.push_back(res);
             return;
         }
 
-        temp.push_back(nums[idx]);
-        create(idx+1,nums,temp);
-        temp.pop_back();
-        create(idx+1,nums,temp);
+        
+            //pick 
+            res.push_back(nums[idx]);
+            fun(ans,res,nums,idx+1);
+            res.pop_back();
+
+            //not pick
+            fun(ans,res,nums,idx+1);
+       
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<int>temp;
-        create(0,nums,temp);
+        vector<vector<int>>ans;
+        vector<int>res;
+        fun(ans,res,nums,0);
         return ans;
     }
+    
 };
-
-
-// 1 2 3
-// 1 
-// 12
-// 123
