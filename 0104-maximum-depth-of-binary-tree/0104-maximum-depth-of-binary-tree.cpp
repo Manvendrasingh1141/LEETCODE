@@ -1,8 +1,12 @@
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
+    int Height(TreeNode* root){
         if(!root)return 0;
 
-        return 1+(max(maxDepth(root->left),maxDepth(root->right)));
+        return 1+max(Height(root->left),Height(root->right));
+    }
+    int maxDepth(TreeNode* root) {
+        if(!root)return 0;
+        return Height(root);
     }
 };
