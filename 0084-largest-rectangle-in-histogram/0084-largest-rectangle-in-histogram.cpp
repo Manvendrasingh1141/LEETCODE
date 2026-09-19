@@ -1,23 +1,41 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& nums) {
+    int largestRectangleArea(vector<int>& h) {
+        vector<int>leftSmallest(h);
+        vector<int>rightSmallest(h);
         stack<int>st;
-        int ans=0,idx=0,n=nums.size();
-        for(int i=0;i<nums.size();i++){
-            while(!st.empty() && nums[st.top()]>nums[i]){
-                idx = st.top();
+        for(int i=0;i<h.size();i++){
+            while(!st.empty() && h[st.top()]>h[i]){
+                rightSmallest[st.top()] = i;
                 st.pop();
-                if(!st.empty())ans=max(ans,nums[idx]*(i-st.top()-1));
-                else ans=max(ans,nums[idx]*i);
             }
             st.push(i);
-            }
-            while(!st.empty()){
-                idx = st.top();
-                st.pop();
-                if(!st.empty())ans=max(ans,nums[idx]*(n-st.top()-1));
-                else ans=max(ans,nums[idx]*n);
         }
+
+        while(!st.empty()){
+            rightSmallest[st.top()]=h.size();
+            st.pop();
+        }
+
+
+        for(int i=h.size()-1;i>=0;i--){
+            while(!st.empty() && h[st.top()]>h[i]){
+                leftSmallest[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+
+        while(!st.empty()){
+            leftSmallest[st.top()]=-1;
+            st.pop();
+        }
+
+        int ans=0;
+        for(int i=0;i<h.size();i++){
+            ans = max(ans, h[i]*(rightSmallest[i]-leftSmallest[i]-1));
+        }
+
         return ans;
     }
 };
