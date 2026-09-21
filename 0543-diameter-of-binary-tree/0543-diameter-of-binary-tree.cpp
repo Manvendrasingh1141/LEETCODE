@@ -1,18 +1,21 @@
 class Solution {
 public:
-    int x = -1;
-    int height(TreeNode* root) {
+
+    int height(TreeNode* root,int &cnt){
         if(!root)return 0;
 
-        return 1+(max(height(root->left),height(root->right)));
+        int l = height(root->left,cnt);
+        int r = height(root->right,cnt);
+
+        cnt = max(cnt,l+r);
+
+        return 1+max(l,r);
+
     }
-
     int diameterOfBinaryTree(TreeNode* root) {
-        if(!root)return 0;
-        x = max(x,height(root->left)+height(root->right));
-
-        diameterOfBinaryTree(root->left);
-        diameterOfBinaryTree(root->right);
-        return x;
+        int cnt=0;
+        height(root,cnt);
+        return cnt;
+        
     }
 };
