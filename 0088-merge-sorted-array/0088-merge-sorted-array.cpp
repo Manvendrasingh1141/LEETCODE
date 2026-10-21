@@ -4,19 +4,23 @@ public:
         int i=0,j=0;
         vector<int>temp;
         while(i<m && j<n){
-            if((temp.size()>0 && temp.back()==nums1[i]) 
-            || nums1[i] <= nums2[j]){
+            if(nums1[i]<=nums2[j]){
                 temp.push_back(nums1[i++]);
-            }else if(nums1[i]>nums2[j]){
+            }else{
                 temp.push_back(nums2[j++]);
-            }   
+            }
+        }
+        while(i<m){
+            temp.push_back(nums1[i++]);
+        }
+        while(j<n){
+            temp.push_back(nums2[j++]);
         }
 
-        while(i<m)temp.push_back(nums1[i++]);
-        while(j<n)temp.push_back(nums2[j++]);
-
-        for(int i=0;i<m+n;i++){
-            nums1[i] = temp[i]; 
+        i=0;
+        while(i<temp.size()){
+            nums1[i]=temp[i];
+            i++;
         }
     }
 };
