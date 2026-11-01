@@ -1,48 +1,32 @@
 class Solution {
 public:
-    int firstPos(vector<int>& nums, int target) {
-        int l = 0, r = nums.size() - 1;
-        int ans = -1;
-
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            if (nums[mid] == target) {
-                ans = mid;
-                r = mid - 1;   // move left
-            }
-            else if (nums[mid] < target)
-                l = mid + 1;
-            else
-                r = mid - 1;
+    int findFirst(vector<int>& nums, int target){
+        int ans=-1,s=0,e=nums.size()-1;
+        while(s<=e){
+            int m = s+(e-s)/2;
+            if(nums[m]<target)s=m+1;
+            else if(nums[m]>=target){
+                if(nums[m]==target)ans=m;
+                e=m-1;
+                }
         }
         return ans;
     }
-
-    int lastPos(vector<int>& nums, int target) {
-        int l = 0, r = nums.size() - 1;
-        int ans = -1;
-
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            if (nums[mid] == target) {
-                ans = mid;
-                l = mid + 1;   // move right
+    int findLast(vector<int>& nums, int target){
+        int ans=-1,s=0,e=nums.size()-1;
+        while(s<=e){
+            int m = s+(e-s)/2;
+            if(nums[m]<=target){
+                if(nums[m]==target)ans=m;
+                s=m+1;
             }
-            else if (nums[mid] < target)
-                l = mid + 1;
-            else
-                r = mid - 1;
+            else if(nums[m]>target)e=m-1;
         }
-        return ans;
+        return ans;  
     }
-
     vector<int> searchRange(vector<int>& nums, int target) {
-        if (nums.empty()) return {-1, -1};
-
-        int first = firstPos(nums, target);
-        if (first == -1) return {-1, -1};
-
-        int last = lastPos(nums, target);
-        return {first, last};
+        int f = findFirst(nums,target);
+        int l = findLast(nums,target);
+        return {f,l};
     }
 };
