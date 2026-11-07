@@ -7,8 +7,10 @@ public:
         for(int i=0;i<words.size();i++){
             string word = words[i];
             bool flag=0;
-            for(char c : word){
-            if(isallowed[c-'a']==0)flag=1;
+            for(char c : word)
+            if(isallowed[c-'a']==0){
+                flag=1;
+                break;
             }
             if(flag==0)
             cnt++;
