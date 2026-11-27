@@ -32,6 +32,7 @@ public:
             int diff = it.first;
             int i = it.second.first;
             int j = it.second.second;
+            if (diff > dist[i][j]) continue;
 
             if(i==n-1&&j==m-1)return diff;
             for(int k=0;k<4;k++){
