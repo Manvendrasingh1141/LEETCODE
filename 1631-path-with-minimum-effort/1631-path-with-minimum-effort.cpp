@@ -1,42 +1,54 @@
+/*
+    Given +ve  weights -> use the dijkrita's algo :
+*/
+
 class Solution {
 public:
-    int minimumEffortPath(vector<vector<int>>& heights) {
-        int n = heights.size();
-        int m = heights[0].size();
-        vector<vector<int>> dist(n, vector<int>(m, 1e8));
+    int row[4] = {1,-1,0,0};
+    int col[4] = {0,0,1,-1};
 
-        dist[0][0] = 0;
-        set<pair<int, pair<int, int>>> s;
-        s.insert({0, {0, 0}});
+    bool is_valid(int i,int j,int n,int m){
+        return i>=0&&j>=0&&i<n&&j<m;
+    }
 
-        vector<int> nx = {-1, 1, 0, 0};
-        vector<int> ny = {0, 0, -1, 1};
+    int minimumEffortPath(vector<vector<int>>& nums) {
+        int n = nums.size();
+        int m = nums[0].size();
 
-        while (!s.empty()) {
-            auto pr = *(s.begin());
-            s.erase(s.begin());
-            int i = pr.second.first;
-            int j = pr.second.second;
+        // diff,{r,c}
+        vector<vector<int>>dist(n,vector<int>(m,1e9));
+        
+        priority_queue<pair<int,pair<int,int>>,
+        vector<pair<int,pair<int,int>>>,
+        greater<pair<int,pair<int,int>>>>pq;
 
-            int currWt = pr.first;
+        dist[0][0]=0;
+        pq.push({0,{0,0}});
 
-            for (int dir = 0; dir < 4; dir++) {
-                int dx = i + nx[dir];
-                int dy = j + ny[dir];
+        while(!pq.empty()){
+            auto it = pq.top();
+            pq.pop();
 
-                if (dx >= 0 && dx < n && dy >= 0 && dy < m) {
-                    if (max(abs(heights[dx][dy] - heights[i][j]), dist[i][j]) <
-                        dist[dx][dy]) {
-                        if (s.find({dist[dx][dy], {dx, dy}}) != s.end())
-                            s.erase({dist[dx][dy], {dx, dy}});
-                        dist[dx][dy] = max(abs(heights[dx][dy] - heights[i][j]),
-                                           dist[i][j]);
-                        s.insert({dist[dx][dy], {dx, dy}});
+            int diff = it.first;
+            int i = it.second.first;
+            int j = it.second.second;
+
+            if(i==n-1&&j==m-1)return diff;
+            for(int k=0;k<4;k++){
+                int r = i+row[k];
+                int c = j+col[k];
+
+                if(is_valid(r,c,n,m)){
+                    int newEffort = max(abs(nums[i][j]-nums[r][c]),diff);
+                    if(newEffort < dist[r][c]){
+                        dist[r][c]=newEffort;
+                        pq.push({dist[r][c],{r,c}});
                     }
                 }
             }
         }
+        return 0;
+        
 
-        return dist[n - 1][m - 1];
     }
 };
