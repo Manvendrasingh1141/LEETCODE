@@ -1,43 +1,43 @@
 class Solution {
 public:
-    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        int n = grid.size();
+    int row[8] = {-1,-1,-1,0,0,1,1,1};
+    int col[8] = {-1,0,1,-1,1,-1,0,1};
+    
+    bool is_valid(int i,int j,int N){
+        return i>=0&&j>=0&&i<N&&j<N;
+    }
 
-        if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1)
-            return -1;
+    int shortestPathBinaryMatrix(vector<vector<int>>& nums) {
+        int N = nums.size();
+        if(nums[0][0] || nums[N-1][N-1])return -1;
+        
+        queue<pair<int,int>>q; //i,j
+        q.push({0,0});
+        nums[0][0]=1;
+        int cnt=1;
 
-        vector<vector<int>> dist(n, vector<int>(n, INT_MAX));
-        int dr[] = {-1, 1, 0, 0, -1, 1, -1, 1};
-        int dc[] = {0, 0, -1, 1, -1, 1, 1, -1};
-        priority_queue<array<int, 3>, vector<array<int, 3>>,
-                       greater<array<int, 3>>>
-            pq;
+        while(!q.empty()){
+            int size = q.size();
+            while(size--){
+            
+            int i = q.front().first;
+            int j = q.front().second;
+            q.pop();
+    
+            if(i==N-1 && j==N-1)return cnt;
 
-        dist[0][0] = 1;
-        pq.push({1, 0, 0});
+            for(int k=0;k<8;k++){
+                int r = i + row[k];
+                int c = j + col[k];
 
-        while (!pq.empty()) {
-            auto [steps, row, col] = pq.top();
-            pq.pop();
-
-            if (steps > dist[row][col])
-                continue;
-            if (row == n - 1 && col == n - 1)
-                return steps;
-
-            for (int i = 0; i < 8; i++) {
-                int newRow = row + dr[i];
-                int newCol = col + dc[i];
-
-                if (newRow < 0 || newRow >= n || newCol < 0 || newCol >= n ||
-                    grid[newRow][newCol] == 1)
-                    continue;
-
-                if (steps + 1 < dist[newRow][newCol]) {
-                    dist[newRow][newCol] = steps + 1;
-                    pq.push({steps + 1, newRow, newCol});
+                if(is_valid(r,c,N) && !nums[r][c]){
+                    nums[r][c]=1;
+                    q.push({r,c});
+                    }
                 }
             }
+            cnt++;
+
         }
 
         return -1;
